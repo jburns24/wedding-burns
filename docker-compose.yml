@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+    env_file:
+      - ./.env
+    ports:
+      - "4000:4000"
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Used at build time by Next.js to set the form action
+        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:4000}
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend
