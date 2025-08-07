@@ -13,7 +13,12 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
       </head>
-      <body>{children}</body>
+      <body>
+        <div className="vine-layer" aria-hidden="true"></div>
+        <div className="vine-frame">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
