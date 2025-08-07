@@ -17,7 +17,7 @@ body {
   margin: 0;
   font-family: 'Lora', serif;
   color: var(--ink);
-  background: linear-gradient(180deg, var(--peach-3), var(--sage-2));
+  background: linear-gradient(180deg, var(--peach-3), var(--peach-2), var(--peach-1));
   background-attachment: fixed;
 }
 
