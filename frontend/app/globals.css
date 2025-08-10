@@ -80,8 +80,8 @@ body {
 .vine-frame {
   position: relative;
   isolation: isolate; /* create stacking context */
-  padding-left: 120px;
-  padding-right: 120px;
+  padding-left: clamp(120px, 10vw, 200px);
+  padding-right: clamp(120px, 10vw, 200px);
 }
 /* Single fixed layer that paints both left/right vines */
 .vine-layer {
@@ -89,15 +89,45 @@ body {
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: 1; /* above page bg */
   pointer-events: none;
-  background-image: url('/vine-side.svg'), url('/vine-side.svg');
-  background-repeat: repeat-y, repeat-y;
-  background-position: left top, right top;
-  background-size: 140px auto, 140px auto; /* match SVG width */
-  -webkit-mask-image: none; /* disable fade mask for debugging */
-  mask-image: none;
   filter: saturate(0.95);
   opacity: 0.95;
 }
+
+/* Top corner graphics (no tiling, fixed) */
+.vine-layer--top::before,
+.vine-layer--top::after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0; /* flush with top */
+  bottom: auto;
+  width: clamp(260px, 28vw, 560px);
+  height: min(68vh, 720px);
+  background-image: url('/vines.png');
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: contain;
+}
+.vine-layer--top::before { left: 0; right: auto; transform: none; transform-origin: left top; }
+.vine-layer--top::after { right: 0; left: auto; transform: scaleX(-1); transform-origin: right top; background-position: top right; }
+
+/* Bottom corner graphics (mirrored vertically to create a frame) */
+.vine-layer--bottom::before,
+.vine-layer--bottom::after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: auto;
+  bottom: 0; /* flush with bottom */
+  width: clamp(260px, 28vw, 560px);
+  height: min(68vh, 720px);
+  background-image: url('/vines.png');
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  background-size: contain;
+}
+.vine-layer--bottom::before { left: 0; right: auto; transform: scaleY(-1); transform-origin: left bottom; }
+.vine-layer--bottom::after { right: 0; left: auto; transform: scale(-1, -1); transform-origin: right bottom; background-position: bottom right; }
 
 /* Ensure content sits above the vines */
 .vine-frame > * {
@@ -113,13 +143,17 @@ body {
 
 /* On small screens, reduce vine width/opacity */
 @media (max-width: 900px) {
-  .vine-layer {
-    background-size: 100px auto, 100px auto;
-    opacity: 0.8;
+  .vine-layer { opacity: 0.85; }
+  .vine-layer--top::before,
+  .vine-layer--top::after,
+  .vine-layer--bottom::before,
+  .vine-layer--bottom::after {
+    width: clamp(160px, 38vw, 280px);
+    height: min(42vh, 360px);
   }
   .vine-frame {
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: clamp(72px, 8vw, 120px);
+    padding-right: clamp(72px, 8vw, 120px);
   }
 }
 

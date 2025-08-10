@@ -14,7 +14,8 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@400;600&display=swap" rel="stylesheet" />
       </head>
       <body>
-        <div className="vine-layer" aria-hidden="true"></div>
+        <div className="vine-layer vine-layer--top" aria-hidden="true"></div>
+        <div className="vine-layer vine-layer--bottom" aria-hidden="true"></div>
         <div className="vine-frame">
           {children}
         </div>

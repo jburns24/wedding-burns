@@ -5,7 +5,7 @@ export default function Home() {
     <main>
       <nav className="nav">
         <div className="container nav-inner">
-          <a href="#home" className="brand title-font">J & B</a>
+          <a href="#home" className="brand title-font">J & C</a>
           <div className="nav-links">
             <a href="#home">Home</a>
             <a href="#story">Our Day</a>
@@ -28,7 +28,7 @@ export default function Home() {
           <div className="details">
             <div>
               <span className="label">Date</span>
-              <span className="value">Coming Soon</span>
+              <span className="value">May 31st, 2026</span>
             </div>
             <div>
               <span className="label">Location</span>
