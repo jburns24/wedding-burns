@@ -37,6 +37,9 @@ body {
 .nav a { color: var(--ink); text-decoration: none; font-weight: 600; }
 .nav .brand { font-size: 28px; }
 .nav-links { display: flex; gap: 20px; }
+/* Hamburger button (hidden on desktop) */
+.nav-toggle { display: none; position: relative; width: 40px; height: 40px; border-radius: 10px; border: 2px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.8); cursor: pointer; align-items: center; justify-content: center; }
+.nav-toggle .bar { display: block; width: 20px; height: 2px; background: var(--ink); margin: 3px 0; border-radius: 2px; }
 
 /* Hero */
 .hero { text-align: center; }
@@ -70,6 +73,12 @@ body {
 
 /* Responsive */
 @media (max-width: 900px) {
+  /* Mobile nav: initials + hamburger only */
+  .nav-inner { height: 56px; }
+  .nav-toggle { display: inline-flex; }
+  .nav-links { display: none; }
+  .nav.open .nav-links { display: flex; position: absolute; top: 56px; right: 16px; left: 16px; flex-direction: column; gap: 8px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.96); box-shadow: 0 10px 24px rgba(0,0,0,0.12); z-index: 12; }
+  .nav.open .nav-links a { padding: 10px 12px; border-radius: 10px; background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.06); }
   .photo-row { grid-template-columns: 1fr; }
   .links-grid { grid-template-columns: 1fr; }
   .hero-title { font-size: 64px; }

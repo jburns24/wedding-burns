@@ -1,12 +1,26 @@
+"use client";
+import { useState } from 'react';
+
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
 
 export default function Home() {
+  const [navOpen, setNavOpen] = useState(false);
   return (
     <main>
-      <nav className="nav">
+      <nav className={`nav ${navOpen ? 'open' : ''}`}>
         <div className="container nav-inner">
           <a href="#home" className="brand title-font">J & C</a>
-          <div className="nav-links">
+          <button
+            className="nav-toggle"
+            aria-label="Toggle menu"
+            aria-expanded={navOpen}
+            onClick={() => setNavOpen(v => !v)}
+          >
+            <span className="bar" />
+            <span className="bar" />
+            <span className="bar" />
+          </button>
+          <div className="nav-links" role="menu">
             <a href="#home">Home</a>
             <a href="#story">Our Day</a>
             <a href="#rsvp">RSVP</a>
