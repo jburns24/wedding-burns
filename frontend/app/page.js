@@ -35,7 +35,7 @@ export default function Home() {
           <p className="hero-subtitle">Join us as we celebrate our big day</p>
           <div className="hero-image">
             <img
-              src="https://placehold.co/1200x600/FCD3C1/F9B69F?text=Your+Photo+Here"
+              src="main.jpg"
               alt="Placeholder for wedding photo"
             />
           </div>
@@ -46,7 +46,7 @@ export default function Home() {
             </div>
             <div>
               <span className="label">Location</span>
-              <span className="value">To Be Announced</span>
+              <span className="value">545 Vallombrosa Ave, Chico CA</span>
             </div>
           </div>
         </div>
@@ -91,7 +91,7 @@ export default function Home() {
           <h2 className="title-font section-title">Helpful Links</h2>
           <div className="links-grid">
             <a className="btn outline" href="#" target="_blank" rel="noreferrer">Registry (Coming Soon)</a>
-            <a className="btn outline" href="#" target="_blank" rel="noreferrer">Honeymoon Fund (Coming Soon)</a>
+            <a className="btn outline" href="https://www.honeyfund.com/site/burns-monti-05-31-2026?no_gdpr=1" target="_blank" rel="noreferrer">Honeymoon Fund</a>
             <a className="btn outline" href="#" target="_blank" rel="noreferrer">Hotel & Travel (Coming Soon)</a>
           </div>
         </div>

@@ -26,6 +26,55 @@ body {
 .container { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
 .section { padding: 80px 0; position: relative; }
 .section.alt { background: rgba(255,255,255,0.6); backdrop-filter: blur(2px); }
+/* Set a shared height for the separators so side vines can align */
+.section + .section { --sep-h: clamp(48px, 10vw, 120px); }
+
+/* Horizontal vine separator between sections */
+.section + .section::before {
+  content: "";
+  display: block;
+  width: min(640px, calc(100% - 80px));
+  height: var(--sep-h);
+  margin: -12px auto 24px;
+  background-image: url('/vines-horizontal.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  filter: saturate(0.95);
+  opacity: 0.85;
+}
+
+/* Create flanking minimal vines tied to the section's container */
+.section + .section .container { position: relative; z-index: 0; }
+.section + .section .container > * { position: relative; z-index: 1; }
+.section + .section .container::before,
+.section + .section .container::after {
+  content: "";
+  position: absolute;
+  top: calc(-0.5 * var(--sep-h) - 76px);
+  width: var(--sep-h);
+  height: var(--sep-h);
+  background-image: url('/vines-left-minimal.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  filter: saturate(0.95);
+  opacity: 0.85;
+  z-index: 0; /* under content */
+}
+.section + .section .container::before { /* Left side - rotate 90° and mirror */
+  left: calc(50% - min(640px, calc(100% - 80px)) / 2 - var(--sep-h));
+  transform: rotate(90deg) scaleX(-1);
+  transform-origin: center;
+}
+.section + .section .container::after { /* Right side - rotate 270° */
+  right: calc(50% - min(640px, calc(100% - 80px)) / 2 - var(--sep-h));
+  transform: rotate(270deg);
+  transform-origin: center;
+}
+
 .section-title { font-size: 56px; margin: 0 0 16px; color: var(--ink); }
 .lead { font-size: 20px; line-height: 1.7; color: var(--ink-soft); }
 .muted { color: #5f6e6a; }
@@ -119,6 +168,14 @@ body {
   .section { padding: 48px 0; }
   .container { padding: 0 16px; }
   
+  /* Smaller separator on mobile */
+  .section + .section::before {
+    width: min(440px, calc(100% - 36px));
+    height: var(--sep-h);
+    margin: -6px auto 16px;
+  }
+  .section + .section { --sep-h: clamp(28px, 12vw, 64px); }
+  
   /* Fix RSVP form overflow */
   .rsvp-form { 
     flex-direction: column; 
@@ -198,40 +255,29 @@ body {
   background-position: top right; 
 }
 
-/* Bottom corner graphics */
-.vine-layer--bottom::before,
+/* Bottom corner graphics - right side only */
 .vine-layer--bottom::after {
   content: "";
   position: absolute;
   display: block;
   top: auto;
   bottom: 0;
+  right: -40px;
+  left: auto;
   width: clamp(160px, 22vw, 400px);
   height: min(50vh, 500px);
   background-image: url('/vines.png');
   background-repeat: no-repeat;
-  background-position: bottom left;
+  background-position: bottom right;
   background-size: contain;
-}
-.vine-layer--bottom::before { 
-  left: -40px; 
-  right: auto; 
-  transform: scaleY(-1); 
-  transform-origin: left bottom; 
-}
-.vine-layer--bottom::after { 
-  right: -40px; 
-  left: auto; 
-  transform: scale(-1, -1); 
-  transform-origin: right bottom; 
-  background-position: bottom right; 
+  transform: scaleX(-1);
+  transform-origin: right bottom;
 }
 
 /* Desktop enhancement - use original full vines */
 @media (min-width: 901px) {
   .vine-layer--top::before,
   .vine-layer--top::after,
-  .vine-layer--bottom::before,
   .vine-layer--bottom::after {
     background-image: url('/vines.png');
     width: clamp(260px, 28vw, 560px);
@@ -262,15 +308,13 @@ body {
 @media (max-width: 900px) {
   .vine-layer--top::before,
   .vine-layer--top::after,
-  .vine-layer--bottom::before,
   .vine-layer--bottom::after {
     width: clamp(180px, 32vw, 400px);
     height: min(60vh, 500px);
   }
   
   /* Align vines with screen edges on mobile */
-  .vine-layer--top::before,
-  .vine-layer--bottom::before {
+  .vine-layer--top::before {
     left: 0px;
   }
   .vine-layer--top::after,
@@ -292,15 +336,13 @@ body {
   } */
   .vine-layer--top::before,
   .vine-layer--top::after,
-  .vine-layer--bottom::before,
   .vine-layer--bottom::after {
     width: clamp(180px, 32vw, 400px);
     height: min(60vh, 500px);
   }
   
   /* Move vines to the left on smallest screens */
-  .vine-layer--top::before,
-  .vine-layer--bottom::before {
+  .vine-layer--top::before {
     left: -10px;
   }
   .vine-layer--top::after,
