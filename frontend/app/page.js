@@ -26,6 +26,7 @@ function PhotoCarousel() {
 
   useEffect(() => {
     const scheduleImageChange = (position) => {
+      // Random interval between 7-10 seconds, each image gets its own timing
       const interval = Math.random() * 3000 + 7000;
       
       setTimeout(() => {
