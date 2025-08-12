@@ -37,12 +37,9 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     needs: extract-component
-    strategy:
-      matrix:
-        dir: ${{ needs.extract-component.outputs.component }}
     defaults:
       run:
-        working-directory: ${{ matrix.dir }}
+        working-directory: ${{ needs.extract-component.outputs.component }}
     steps:
       - name: Docker meta
         id: meta
@@ -50,7 +47,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/${{ github.repository }}/${{ matrix.dir }}
+            ghcr.io/${{ github.repository }}/${{ needs.extract-component.outputs.component }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=tag
