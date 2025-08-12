@@ -41,6 +41,7 @@ jobs:
       run:
         working-directory: ${{ needs.extract-component.outputs.component }}
     steps:
+      - uses: actions/checkout@v4
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
