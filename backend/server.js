@@ -14,6 +14,7 @@ if (!RSVP_UNIVERSAL_CODE) {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Health check
 app.get('/healthz', (req, res) => {
   res.status(200).send('ok');
 });
