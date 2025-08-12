@@ -94,7 +94,7 @@ jobs:
         id: push_tag
         uses: mathieudutour/github-tag-action@v6.2
         with:
-          dry_run: true
+        #   dry_run: true
           custom_tag: ${{ steps.calculate_new_version.outputs.new_version }}
           github_token: ${{ steps.octo-sts.outputs.token }}
           tag_prefix: ${{ matrix.dir }}/v
