@@ -8,9 +8,14 @@ ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
 
 COPY package*.json ./
 RUN npm install
+
+# Copy all source files including scripts for image generation
 COPY . .
 
-# Build (next.config.js sets output: 'export')
+# Ensure scripts directory has proper permissions
+RUN chmod +x scripts/generate-carousel-images.js
+
+# Build (prebuild script automatically generates carousel images, then next.config.js sets output: 'export')
 RUN npm run build
 
 # Runtime: nginx serving the static export

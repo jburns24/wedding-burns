@@ -99,9 +99,26 @@ body {
 .details .label { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-soft); }
 .details .value { font-size: 20px; font-weight: 600; }
 
-/* Photo row */
-.photo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
-.photo-row img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+/* Photo row / carousel */
+.photo-row { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 16px; 
+  margin-top: 24px;
+}
+.photo-row img { 
+  width: 100%; 
+  height: auto; 
+  border-radius: 12px; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+.photo-carousel-img {
+  transition: opacity 0.8s ease-in-out;
+}
+.photo-carousel-img.visible { opacity: 1; }
+.photo-carousel-img.hidden { opacity: 0; }
 
 /* RSVP */
 .rsvp-form { display: flex; gap: 12px; margin-top: 12px; }

@@ -1,7 +1,127 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+
+// Import dynamically generated carousel images
+import carouselImages from '../lib/carousel-images.js';
+
+function PhotoCarousel() {
+  // Debug logging
+  console.log('PhotoCarousel render - carouselImages:', carouselImages);
+  console.log('carouselImages length:', carouselImages?.length);
+  console.log('carouselImages type:', typeof carouselImages);
+  
+  // Don't initialize if we don't have images yet
+  if (!carouselImages || carouselImages.length === 0) {
+    console.log('No images available, showing loading...');
+    return <div className="photo-row">Loading photos...</div>;
+  }
+
+  const [images, setImages] = useState([
+    { index: 0, visible: true, key: Date.now() + 0 },
+    { index: 1, visible: true, key: Date.now() + 1 },
+    { index: 2, visible: true, key: Date.now() + 2 }
+  ]);
+
+  useEffect(() => {
+    const scheduleImageChange = (position) => {
+      // Random interval between 7-10 seconds, each image gets its own timing
+      const interval = Math.random() * 3000 + 7000;
+      
+      setTimeout(() => {
+        // Fade out
+        setImages(prev => prev.map((img, i) => 
+          i === position ? { ...img, visible: false } : img
+        ));
+        
+        // After fade out, change image and fade in
+        setTimeout(() => {
+          setImages(prev => {
+            // Debug the carousel state
+            console.log('Changing image at position:', position);
+            console.log('carouselImages in setState:', carouselImages);
+            console.log('carouselImages.length in setState:', carouselImages?.length);
+            
+            if (!carouselImages || carouselImages.length === 0) {
+              console.error('No carouselImages available in setState!');
+              return prev; // Don't change anything if no images
+            }
+            
+            const newImages = [...prev];
+            const usedIndices = newImages.map(img => img.index);
+            let availableIndices = Array.from({ length: carouselImages.length }, (_, i) => i);
+            availableIndices = availableIndices.filter(i => !usedIndices.includes(i));
+            
+            console.log('Used indices:', usedIndices);
+            console.log('Available indices:', availableIndices);
+            
+            if (availableIndices.length > 0) {
+              const randomIndex = Math.floor(Math.random() * availableIndices.length);
+              const newImageIndex = availableIndices[randomIndex];
+              console.log('Selected new image index:', newImageIndex);
+              console.log('New image filename:', carouselImages[newImageIndex]);
+              
+              newImages[position] = {
+                index: newImageIndex,
+                visible: false,
+                key: Date.now() + Math.random()
+              };
+            } else {
+              console.warn('No available indices! Using random fallback.');
+              const fallbackIndex = Math.floor(Math.random() * carouselImages.length);
+              newImages[position] = {
+                index: fallbackIndex,
+                visible: false,
+                key: Date.now() + Math.random()
+              };
+            }
+            
+            return newImages;
+          });
+          
+          // Fade in new image
+          setTimeout(() => {
+            setImages(prev => prev.map((img, i) => 
+              i === position ? { ...img, visible: true } : img
+            ));
+            
+            // Schedule next change for this position
+            scheduleImageChange(position);
+          }, 100);
+        }, 800); // Wait for fade out
+      }, interval);
+    };
+
+    // Schedule initial changes with shorter, staggered start times (2-4s, 4-6s, 6-8s)
+    setTimeout(() => scheduleImageChange(0), Math.random() * 2000 + 2000);
+    setTimeout(() => scheduleImageChange(1), Math.random() * 2000 + 4000);
+    setTimeout(() => scheduleImageChange(2), Math.random() * 2000 + 6000);
+  }, []);
+
+  return (
+    <div className="photo-row">
+      {images.map((img, i) => {
+        const filename = carouselImages[img.index];
+        
+        // Skip rendering if filename is invalid
+        if (!filename) {
+          console.warn(`Invalid image index: ${img.index} for carousel with ${carouselImages.length} images`);
+          return null;
+        }
+        
+        return (
+          <img 
+            key={img.key}
+            className={`photo-carousel-img ${img.visible ? 'visible' : 'hidden'}`}
+            src={`/carosel/${filename}`}
+            alt={`Wedding photo ${i + 1}`}
+          />
+        );
+      }).filter(Boolean)}
+    </div>
+  );
+}
 
 export default function Home() {
   const [navOpen, setNavOpen] = useState(false);
@@ -60,11 +180,7 @@ export default function Home() {
             the magic of our wedding day. Your love and support mean the world
             to us, and we can’t wait to make beautiful memories together.
           </p>
-          <div className="photo-row">
-            <img src="https://placehold.co/500x350/FBC4B1/ffffff?text=Photo+1" alt="Placeholder 1" />
-            <img src="https://placehold.co/500x350/F9B69F/ffffff?text=Photo+2" alt="Placeholder 2" />
-            <img src="https://placehold.co/500x350/AFB6AA/ffffff?text=Photo+3" alt="Placeholder 3" />
-          </div>
+          <PhotoCarousel />
         </div>
       </section>
 
