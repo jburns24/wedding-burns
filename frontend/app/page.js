@@ -207,7 +207,6 @@ export default function Home() {
           <div className="links-grid">
             <a className="btn outline" href="#" target="_blank" rel="noreferrer">Registry (Coming Soon)</a>
             <a className="btn outline" href="https://www.honeyfund.com/site/burns-monti-05-31-2026?no_gdpr=1" target="_blank" rel="noreferrer">Honeymoon Fund</a>
-            <a className="btn outline" href="#" target="_blank" rel="noreferrer">Hotel & Travel (Coming Soon)</a>
           </div>
         </div>
       </section>

@@ -19,7 +19,7 @@ app.get('/healthz', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.type('text/plain').send('Wedding RSVP backend is running');
+  res.type('text/plain').send('Wedding RSVP backend is running!');
 });
 
 app.post('/rsvp', (req, res) => {
