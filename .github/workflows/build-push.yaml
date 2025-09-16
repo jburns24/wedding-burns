@@ -3,7 +3,7 @@ name: Docker Build and Push
 on:
   push:
     tags:
-      # Match tags like backend/v1.2.3 and frontend/v1.2.3  
+      # Match tags like backend/v1.2.3 and frontend/v1.2.3
       - "*/v*.*.*"
 
 permissions:
@@ -22,7 +22,7 @@ jobs:
           # Extract tag from GITHUB_REF (refs/tags/frontend/v0.0.2 -> frontend/v0.0.2)
           TAG_NAME=${GITHUB_REF#refs/tags/}
           echo "Full tag: $TAG_NAME"
-          
+
           # Check if tag matches expected pattern (component/v*.*.*)
           if [[ $TAG_NAME =~ ^(backend|frontend)/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             # Extract component name (everything before the first /)
@@ -33,7 +33,7 @@ jobs:
             echo "ERROR: Tag '$TAG_NAME' does not match expected pattern 'backend/v*.*.*' or 'frontend/v*.*.*'"
             exit 1
           fi
-          
+
   docker:
     runs-on: ubuntu-24.04-arm
     needs: extract-component
@@ -50,11 +50,12 @@ jobs:
           images: |
             ghcr.io/${{ github.repository }}/${{ needs.extract-component.outputs.component }}
           # generate Docker tags based on the following events/attributes
+          # Strips out the component prefix from the tag for cleaner image tags
           tags: |
-            type=ref,event=tag
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
+            type=ref,event=tag,value={{tag}},pattern=.*/(.*)
+            type=semver,pattern={{version}},value={{tag}},match=.*/(.*)
+            type=semver,pattern={{major}}.{{minor}},value={{tag}},match=.*/(.*)
+            type=semver,pattern={{major}},value={{tag}},match=.*/(.*)
             type=sha
 
       - name: Login to GHCR
@@ -77,4 +78,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          
+
