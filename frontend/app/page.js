@@ -214,7 +214,7 @@ export default function Home() {
 
       <footer className="footer">
         <div className="container">
-          <p className="title-font">With love, J & B</p>
+          <p className="title-font">With love, J & C</p>
           <p className="small muted">© {new Date().getFullYear()} Our Wedding</p>
         </div>
       </footer>
