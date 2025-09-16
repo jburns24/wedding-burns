@@ -17,3 +17,18 @@ services:
       - "3001:80"
     depends_on:
       - backend
+
+# # Alternative configuration using pre-built images from GHCR
+# services:
+#   backend:
+#     image: ghcr.io/jburns24/wedding-burns/backend:latest
+#     env_file:
+#       - ./.env
+#     ports:
+#       - "4000:4000"
+#   frontend:
+#     image: ghcr.io/jburns24/wedding-burns/frontend:latest
+#     ports:
+#       - "3001:80"
+#     depends_on:
+#       - backend

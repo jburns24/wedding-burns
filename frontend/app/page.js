@@ -11,7 +11,7 @@ function PhotoCarousel() {
   console.log('PhotoCarousel render - carouselImages:', carouselImages);
   console.log('carouselImages length:', carouselImages?.length);
   console.log('carouselImages type:', typeof carouselImages);
-  
+
   // Don't initialize if we don't have images yet
   if (!carouselImages || carouselImages.length === 0) {
     console.log('No images available, showing loading...');
@@ -27,13 +27,13 @@ function PhotoCarousel() {
   useEffect(() => {
     const scheduleImageChange = (position) => {
       const interval = Math.random() * 3000 + 7000;
-      
+
       setTimeout(() => {
         // Fade out
-        setImages(prev => prev.map((img, i) => 
+        setImages(prev => prev.map((img, i) =>
           i === position ? { ...img, visible: false } : img
         ));
-        
+
         // After fade out, change image and fade in
         setTimeout(() => {
           setImages(prev => {
@@ -41,26 +41,26 @@ function PhotoCarousel() {
             console.log('Changing image at position:', position);
             console.log('carouselImages in setState:', carouselImages);
             console.log('carouselImages.length in setState:', carouselImages?.length);
-            
+
             if (!carouselImages || carouselImages.length === 0) {
               console.error('No carouselImages available in setState!');
               return prev; // Don't change anything if no images
             }
-            
+
             const newImages = [...prev];
             const usedIndices = newImages.map(img => img.index);
             let availableIndices = Array.from({ length: carouselImages.length }, (_, i) => i);
             availableIndices = availableIndices.filter(i => !usedIndices.includes(i));
-            
+
             console.log('Used indices:', usedIndices);
             console.log('Available indices:', availableIndices);
-            
+
             if (availableIndices.length > 0) {
               const randomIndex = Math.floor(Math.random() * availableIndices.length);
               const newImageIndex = availableIndices[randomIndex];
               console.log('Selected new image index:', newImageIndex);
               console.log('New image filename:', carouselImages[newImageIndex]);
-              
+
               newImages[position] = {
                 index: newImageIndex,
                 visible: false,
@@ -75,16 +75,16 @@ function PhotoCarousel() {
                 key: Date.now() + Math.random()
               };
             }
-            
+
             return newImages;
           });
-          
+
           // Fade in new image
           setTimeout(() => {
-            setImages(prev => prev.map((img, i) => 
+            setImages(prev => prev.map((img, i) =>
               i === position ? { ...img, visible: true } : img
             ));
-            
+
             // Schedule next change for this position
             scheduleImageChange(position);
           }, 100);
@@ -102,15 +102,15 @@ function PhotoCarousel() {
     <div className="photo-row">
       {images.map((img, i) => {
         const filename = carouselImages[img.index];
-        
+
         // Skip rendering if filename is invalid
         if (!filename) {
           console.warn(`Invalid image index: ${img.index} for carousel with ${carouselImages.length} images`);
           return null;
         }
-        
+
         return (
-          <img 
+          <img
             key={img.key}
             className={`photo-carousel-img ${img.visible ? 'visible' : 'hidden'}`}
             src={`/carosel/${filename}`}
