@@ -88,7 +88,7 @@ function PhotoCarousel() {
             // Schedule next change for this position
             scheduleImageChange(position);
           }, 100);
-        }, 800); // Wait for fade out
+        }, 800);
       }, interval);
     };
 
