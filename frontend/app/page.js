@@ -154,7 +154,7 @@ export default function Home() {
           <p className="hero-subtitle">Join us as we celebrate our big day</p>
           <div className="hero-image">
             <img
-              src="main.jpg"
+              src="cropped-wedding.png"
               alt="Placeholder for wedding photo"
             />
           </div>
