@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Our Wedding',
+  title: 'Burns Wedding',
   description: 'Join us for our big day!',
 };
 
