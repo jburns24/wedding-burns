@@ -55,5 +55,5 @@ app.post('/rsvp', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`[backend] Listening on port ${PORT}`);
+  console.log(`[backend] Listening on port ${PORT}.`);
 });
